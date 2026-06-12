@@ -17,14 +17,18 @@
           </div>
         </template>
         <template v-else>
-          <div class="base-container">
+          <TransitionGroup
+            name="rule-move"
+            tag="div"
+            class="base-container"
+          >
             <RuleCard
               v-for="rule in renderRules"
               :key="rule.payload"
               :rule="rule"
               :index="rules.indexOf(rule) + 1"
             />
-          </div>
+          </TransitionGroup>
         </template>
       </div>
     </template>
