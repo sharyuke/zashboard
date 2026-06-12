@@ -1,7 +1,12 @@
 <template>
   <div
-    class="scroller-item hover:bg-base-200/40 flex items-center gap-2 overflow-hidden px-3 py-[4px] text-sm transition-colors"
+    class="scroller-item hover:bg-base-200/60 active:bg-base-200/80 flex cursor-pointer items-center gap-2 overflow-hidden px-3 py-[4px] text-sm transition-colors"
     :title="log.payload"
+    role="button"
+    tabindex="0"
+    @click="handleClick"
+    @keydown.enter="handleClick"
+    @keydown.space.prevent="handleClick"
   >
     <span
       class="text-base-content/40 shrink-0 text-xs tabular-nums"
@@ -39,11 +44,16 @@ import { useBounceOnVisible } from '@/composables/bouncein'
 import { LOG_LEVEL } from '@/constant'
 import { logFilter } from '@/store/logs'
 import type { LogWithSeq } from '@/types'
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 
 const props = defineProps<{
   log: LogWithSeq
 }>()
+
+const showLogDetail = inject<(log: LogWithSeq) => void>('showLogDetail', () => {})
+const handleClick = () => {
+  showLogDetail(props.log)
+}
 
 const seqWithPadding = computed(() => {
   return props.log.seq.toString().padStart(2, '0')
@@ -57,6 +67,7 @@ const colorMapForType = {
   [LOG_LEVEL.Error]: 'text-error',
   [LOG_LEVEL.Fatal]: 'text-error',
   [LOG_LEVEL.Panic]: 'text-error',
+  [LOG_LEVEL.Silent]: 'text-base-content/40',
 }
 
 useBounceOnVisible()
