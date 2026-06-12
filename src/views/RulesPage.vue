@@ -31,7 +31,7 @@
     <VirtualScroller
       v-else
       :data="renderRules"
-      :size="44"
+      :size="40"
     >
       <template v-slot:before>
         <RulesCtrl />
