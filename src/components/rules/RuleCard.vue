@@ -1,14 +1,14 @@
 <template>
   <div :class="{ 'opacity-50': isDisabled, 'scroller-item': 1 }">
     <div
-      class="hover:bg-base-200/40 flex items-center gap-2 overflow-hidden px-3 py-[8px] text-sm transition-colors"
+      class="hover:bg-base-200/40 flex items-center gap-2 overflow-hidden px-3 py-[8px] text-sm transition-colors max-md:grid max-md:grid-cols-[1fr_auto] max-md:grid-rows-[auto_auto] max-md:gap-x-2 max-md:gap-y-1 max-md:py-2"
       :class="{
         'cursor-pointer': isSelectable,
       }"
       @click="clickHandler"
     >
       <div
-        class="min-w-0 flex-1 truncate"
+        class="min-w-0 truncate max-md:col-start-1 max-md:row-start-1 md:flex-1"
         :title="rule.payload ? `${rule.type} : ${rule.payload}` : rule.type"
       >
         <span class="text-base-content/50 text-xs tabular-nums">
@@ -48,7 +48,9 @@
           @click.stop
         />
       </div>
-      <div class="max-w-[50%] min-w-0 shrink">
+      <div
+        class="max-w-full min-w-0 max-md:col-start-1 max-md:row-start-2 md:max-w-[50%] md:shrink"
+      >
         <ProxyChainPath
           :proxy="rule.proxy"
           :selected="selected"
@@ -61,7 +63,7 @@
       <input
         v-if="rule.uuid || rule.extra"
         type="checkbox"
-        class="toggle toggle-sm shrink-0"
+        class="toggle toggle-sm shrink-0 max-md:col-start-2 max-md:row-start-1 max-md:self-center"
         :checked="!isDisabled"
         @change="toggleRuleDisabledHandler"
         @click.stop
@@ -69,7 +71,7 @@
       <button
         :class="
           twMerge(
-            'btn btn-circle btn-ghost btn-xs shrink-0',
+            'btn btn-circle btn-ghost btn-xs shrink-0 max-md:col-start-2 max-md:row-start-2 max-md:self-center',
             isUpdating ? 'animate-spin' : '',
             isUpdateableRuleSet ? '' : 'pointer-events-none invisible',
           )
